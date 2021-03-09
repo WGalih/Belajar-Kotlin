@@ -20,6 +20,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        val email = et_email.text.toString()
+        val password = et_password.text.toString()
+
         tv_skip.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -31,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
         btn_login.setOnClickListener{
-            loginViewModel.login(et_email.text.toString(), et_password.text.toString())
+            loginViewModel.login(email, password)
         }
         setObserver()
     }
@@ -41,6 +44,9 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.getLoginResponseModel().observe(this, Observer {
             if (it != null) {
                 Toast.makeText(this, "User Id " + it.userModel.userId, Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         })
 

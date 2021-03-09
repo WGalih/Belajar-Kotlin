@@ -19,6 +19,5 @@ interface ApiInterface {
     fun register(
         @Query("email") email: String, @Query("name") name: String,
         @Query("address") address: String, @Query("dob") dob: String,
-        @Query("password") password: String
-    ): Single<LoginResponseModel>
+        @Query("password") password: String): Single<LoginResponseModel>
 }

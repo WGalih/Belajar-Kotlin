@@ -36,7 +36,30 @@ class LoginViewModel: ViewModel(){
             }))
     }
 
+    fun register(email: String, name: String, address: String, dob: String, password: String){
+        composDisposable.add(
+            RetrofitInstance.apiInterface.register(email, name, address, dob, password)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<LoginResponseModel>(){
+                    override fun onSuccess(t: LoginResponseModel) {
+                        if("success" == t.status){
+                            loginResponseModel.value = t
+                        } else {
+                            errorListener.value = true
+                        }
+                    }
+                    override fun onError(e: Throwable) {
+                        errorListener.value = true
+                    }
+                }))
+    }
+
     fun getLoginResponseModel(): MutableLiveData<LoginResponseModel>{
+        return loginResponseModel
+    }
+
+    fun getRegisterResponseModel(): MutableLiveData<LoginResponseModel>{
         return loginResponseModel
     }
 
